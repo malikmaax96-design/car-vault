@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Car Vault — Dealership Management</title>
+  <meta name="description" content="Car Vault is a complete car dealership management system to track stock, sales, workshop jobs, inspections and complaints.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="app" id="app">
+  <!-- ===== SIDEBAR ===== -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-icon">🚗</div>
+      <div>
+        <div class="logo-title">Car Vault</div>
+        <div class="logo-sub">Management System</div>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <div class="nav-section-title">Overview</div>
+      <a href="#" class="nav-item active" data-page="dashboard" id="nav-dashboard">
+        <i class="fas fa-tachometer-alt"></i>
+        <span>Dashboard</span>
+      </a>
+      
+      <div class="nav-section-title">Management</div>
+      <a href="#" class="nav-item" data-page="stock" id="nav-stock">
+        <i class="fas fa-car"></i>
+        <span>Stock</span>
+      </a>
+      <a href="#" class="nav-item" data-page="workshop" id="nav-workshop">
+        <i class="fas fa-tools"></i>
+        <span>Workshop</span>
+      </a>
+      <a href="#" class="nav-item" data-page="inspections" id="nav-inspections">
+        <i class="fas fa-clipboard-check"></i>
+        <span>Inspections</span>
+      </a>
+      
+      <div class="nav-section-title">Finance</div>
+      <a href="#" class="nav-item" data-page="sales" id="nav-sales">
+        <i class="fas fa-pound-sign"></i>
+        <span>Sales</span>
+      </a>
+      <a href="#" class="nav-item" data-page="complaints" id="nav-complaints">
+        <i class="fas fa-exclamation-circle"></i>
+        <span>Complaints</span>
+      </a>
+      <a href="#" class="nav-item" data-page="reports" id="nav-reports">
+        <i class="fas fa-chart-bar"></i>
+        <span>Reports</span>
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="user-info">
+        <div class="user-avatar">CV</div>
+        <div>
+          <div class="user-name">Car Vault</div>
+          <div class="user-role">Admin Panel</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ===== SIDEBAR OVERLAY (mobile) ===== -->
+  <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+
+  <!-- ===== MAIN CONTENT ===== -->
+  <main class="main-content">
+    <!-- Top Header -->
+    <header class="top-header">
+      <div class="header-left">
+        <button class="menu-toggle" onclick="toggleSidebar()" id="menuToggle">
+          <i class="fas fa-bars"></i>
+        </button>
+        <div class="page-title" id="pageTitle">Dashboard</div>
+      </div>
+      <div class="header-right">
+        <div class="date-display" id="currentDate"></div>
+        <button class="btn btn-secondary" onclick="navigate('reports')" title="Export data">
+          <i class="fas fa-download"></i>
+          <span class="btn-label">Export</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Page Content -->
+    <div class="page-content" id="pageContent">
+      <!-- Rendered by JavaScript -->
+    </div>
+  </main>
+</div>
+
+<!-- ===== MODAL ===== -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal" id="modal">
+    <div class="modal-header">
+      <h3 id="modalTitle">Modal</h3>
+      <button class="modal-close" id="modalClose">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<!-- ===== TOAST NOTIFICATIONS ===== -->
+<div class="toast-container" id="toastContainer"></div>
+
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
