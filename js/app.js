@@ -10,7 +10,7 @@
 // ===== SUPABASE CONFIGURATION =====
 // ============================================================
 const SUPABASE_URL = 'https://pqgppnuradtsiipcocpo.supabase.co';
-const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdWxhYmFzZSIsInJlZmx6InBxZ3BwbnVyYWR0c2lpcGNvY3BvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI2MzAxMjUsImV4cCI6MjA1ODIwNjEyNX0.yCS_u3clZEik5CaEfju5DkY0hqr4qWpqOXZmOakgilE';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBxZ3BwbnVyYWR0c2lpcGNvY3BvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYxMTEyNjAsImV4cCI6MjA5MTY4NzI2MH0.yCS_u3cIZEik5CaEfju5DkY0hqr4qWpqOXzmOakgilE';
 
 let db;
 try {
