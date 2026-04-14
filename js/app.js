@@ -1440,21 +1440,41 @@ document.addEventListener('DOMContentLoaded', async () => {
   document.getElementById('sidebarOverlay')?.addEventListener('click', toggleSidebar);
 
   // ===== Database connection check =====
+  let dbConnected = false;
+  showLoading('Connecting to database...');
   try {
-    showLoading('Connecting to database...');
     const { error } = await db.from('cv_records').select('id').limit(1);
     if (error) throw error;
+    dbConnected = true;
     hideLoading();
     toast('Database connected ✓', 'success');
   } catch(e) {
     hideLoading();
     console.error('DB Connection error:', e);
-    toast('⚠️ Database connection failed — check console', 'error');
+    // Show a clear error with manual retry
+    document.getElementById('pageContent').innerHTML = `
+      <div style="text-align:center;padding:80px 20px">
+        <div style="font-size:60px;margin-bottom:20px">🔌</div>
+        <h2 style="color:var(--text-primary);font-size:22px;margin-bottom:12px">Database Not Connected</h2>
+        <p style="color:var(--text-muted);max-width:400px;margin:0 auto 24px">
+          Could not reach the database. This is usually a one-time setup issue. Please wait 30 seconds and try again.
+        </p>
+        <p style="color:var(--text-muted);font-size:12px;margin-bottom:24px;font-family:monospace;background:var(--bg-card);padding:12px;border-radius:8px;display:inline-block">
+          Error: ${e?.message || 'Connection refused'}
+        </p>
+        <br>
+        <button class="btn btn-primary" onclick="location.reload()" style="margin-right:10px">
+          <i class="fas fa-redo"></i> Retry Connection
+        </button>
+      </div>`;
+    // Update connection badge  
+    document.getElementById('pageTitle').textContent = 'Connection Error';
+    return; // Stop — don't seed or navigate
   }
 
-  // Seed demo data if first run
-  await seedDemoData();
-
-  // Navigate to dashboard
-  navigate('dashboard');
+  // Only seed and navigate if DB is healthy
+  if (dbConnected) {
+    await seedDemoData();
+    navigate('dashboard');
+  }
 });
