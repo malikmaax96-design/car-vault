@@ -109,7 +109,7 @@ function navigate(page) {
     dashboard: 'Dashboard', stock: 'Stock Management',
     workshop: 'Workshop', inspections: 'Inspections',
     sales: 'Sales Records', complaints: 'Complaints',
-    reports: 'Reports & Analytics'
+    reports: 'Reports & Analytics', invoices: 'Invoices'
   };
   const titleEl = document.getElementById('pageTitle');
   if (titleEl) titleEl.textContent = titles[page] || page;
@@ -127,7 +127,8 @@ function navigate(page) {
     inspections: renderInspections,
     sales:       renderSales,
     complaints:  renderComplaints,
-    reports:     renderReports
+    reports:     renderReports,
+    invoices:    renderInvoices
   };
 
   if (renderers[page]) {
@@ -605,6 +606,7 @@ function renderWorkshopTable() {
             <td>
               <div class="table-actions">
                 <button class="btn btn-secondary btn-sm btn-icon" onclick="openWorkshopModal('${j.id}')" title="Edit"><i class="fas fa-edit"></i></button>
+                <button class="btn btn-primary btn-sm btn-icon" onclick="openServiceInvModal('${j.id}')" title="Invoice"><i class="fas fa-file-invoice"></i></button>
                 <button class="btn btn-danger btn-sm btn-icon" onclick="deleteWorkshopJob('${j.id}')" title="Delete"><i class="fas fa-trash"></i></button>
               </div>
             </td>
@@ -902,6 +904,7 @@ function renderSalesTable() {
             <td>
               <div class="table-actions">
                 <button class="btn btn-secondary btn-sm btn-icon" onclick="openSaleModal('${s.id}')" title="Edit"><i class="fas fa-edit"></i></button>
+                <button class="btn btn-primary btn-sm btn-icon" onclick="openSaleInvModal('${s.id}')" title="Invoice"><i class="fas fa-file-invoice"></i></button>
                 <button class="btn btn-danger btn-sm btn-icon" onclick="deleteSale('${s.id}')" title="Delete"><i class="fas fa-trash"></i></button>
               </div>
             </td>
