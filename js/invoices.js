@@ -26,12 +26,9 @@ function getNextInvNum() {
 // ============================================================
 async function renderInvoices() {
   const content = document.getElementById('pageContent');
-  showLoading('Loading invoice data...');
-  const [ws, sales] = await Promise.all([dbGet('workshop'), dbGet('sales')]);
-  _workshopCache = ws;
-  _salesCache    = sales;
-  hideLoading();
+  if (!content) return;
 
+  // ⚡ Show the page shell IMMEDIATELY — no blank screen
   content.innerHTML = `
     <div class="section-header">
       <h2>🧾 Invoice Generator</h2>
@@ -44,35 +41,20 @@ async function renderInvoices() {
         </button>
       </div>
     </div>
-
     <div class="invoice-types-grid">
-      <!-- SERVICE INVOICES -->
       <div class="invoice-type-card">
         <div class="inv-type-header">
           <div class="inv-type-icon amber-bg">🔧</div>
           <div>
             <h3>Workshop Service Invoices</h3>
-            <p class="inv-type-sub">Labour, parts & servicing — customer pays for repairs</p>
+            <p class="inv-type-sub">Labour, parts &amp; servicing — customer pays for repairs</p>
           </div>
         </div>
-        ${ws.length ? `
-        <table class="data-table" style="margin-top:14px">
-          <thead><tr><th>Reg</th><th>Job Description</th><th>Cost</th><th></th></tr></thead>
-          <tbody>
-            ${ws.slice(0,7).map(j=>`<tr>
-              <td><span class="reg-plate">${j.vehicleReg||'—'}</span></td>
-              <td><small>${j.mechanicalProblem||'Workshop job'}</small></td>
-              <td>£${((parseFloat(j.labourCost||0)+parseFloat(j.partsCost||0))).toLocaleString()}</td>
-              <td><button class="btn btn-primary btn-sm" onclick="openServiceInvModal('${j.id}')"><i class="fas fa-file-invoice"></i> Invoice</button></td>
-            </tr>`).join('')}
-          </tbody>
-        </table>` : `<div class="table-empty" style="margin-top:14px"><span class="empty-icon">🔧</span><p>No workshop jobs yet</p></div>`}
+        <div id="inv-ws-list"><div class="table-empty"><span class="empty-icon">⏳</span><p>Loading workshop jobs...</p></div></div>
         <button class="btn btn-primary inv-full-btn" onclick="openServiceInvModal()">
           <i class="fas fa-plus"></i> Create Blank Service Invoice
         </button>
       </div>
-
-      <!-- SALE INVOICES -->
       <div class="invoice-type-card">
         <div class="inv-type-header">
           <div class="inv-type-icon blue-bg">🚗</div>
@@ -81,24 +63,64 @@ async function renderInvoices() {
             <p class="inv-type-sub">Vehicle purchase receipts — proof of sale for buyer</p>
           </div>
         </div>
-        ${sales.length ? `
-        <table class="data-table" style="margin-top:14px">
-          <thead><tr><th>Reg</th><th>Buyer</th><th>Price</th><th></th></tr></thead>
-          <tbody>
-            ${sales.slice(0,7).map(s=>`<tr>
-              <td><span class="reg-plate">${s.vehicleReg||'—'}</span></td>
-              <td>${s.buyerName||'—'}</td>
-              <td>£${parseFloat(s.salePrice||0).toLocaleString()}</td>
-              <td><button class="btn btn-secondary btn-sm" onclick="openSaleInvModal('${s.id}')"><i class="fas fa-file-invoice"></i> Invoice</button></td>
-            </tr>`).join('')}
-          </tbody>
-        </table>` : `<div class="table-empty" style="margin-top:14px"><span class="empty-icon">🚗</span><p>No sales yet</p></div>`}
+        <div id="inv-sale-list"><div class="table-empty"><span class="empty-icon">⏳</span><p>Loading sales...</p></div></div>
         <button class="btn btn-secondary inv-full-btn" onclick="openSaleInvModal()">
           <i class="fas fa-plus"></i> Create Blank Sale Invoice
         </button>
       </div>
     </div>`;
+
+  // Now load DB data and update both sections
+  try {
+    const [ws, sales] = await Promise.all([dbGet('workshop'), dbGet('sales')]);
+
+    // Store in caches for invoice modals to use
+    if (typeof _workshopCache !== 'undefined') _workshopCache = ws;
+    if (typeof _salesCache    !== 'undefined') _salesCache    = sales;
+
+    // Workshop table
+    const wsEl = document.getElementById('inv-ws-list');
+    if (wsEl) {
+      wsEl.innerHTML = ws && ws.length ? `
+        <table class="data-table" style="margin-top:10px">
+          <thead><tr><th>Reg</th><th>Job</th><th>Cost</th><th></th></tr></thead>
+          <tbody>${ws.slice(0,7).map(j=>`<tr>
+            <td><span class="reg-plate">${j.vehicleReg||'—'}</span></td>
+            <td><small>${j.mechanicalProblem||'Workshop job'}</small></td>
+            <td>£${((parseFloat(j.labourCost||0)+parseFloat(j.partsCost||0))).toLocaleString()}</td>
+            <td><button class="btn btn-primary btn-sm" onclick="openServiceInvModal('${j.id}')">
+              <i class="fas fa-file-invoice"></i> Invoice</button></td>
+          </tr>`).join('')}</tbody>
+        </table>` :
+        `<div class="table-empty" style="margin-top:10px"><span class="empty-icon">🔧</span><p>No workshop jobs yet</p></div>`;
+    }
+
+    // Sales table
+    const saleEl = document.getElementById('inv-sale-list');
+    if (saleEl) {
+      saleEl.innerHTML = sales && sales.length ? `
+        <table class="data-table" style="margin-top:10px">
+          <thead><tr><th>Reg</th><th>Buyer</th><th>Price</th><th></th></tr></thead>
+          <tbody>${sales.slice(0,7).map(s=>`<tr>
+            <td><span class="reg-plate">${s.vehicleReg||'—'}</span></td>
+            <td>${s.buyerName||'—'}</td>
+            <td>£${parseFloat(s.salePrice||0).toLocaleString()}</td>
+            <td><button class="btn btn-secondary btn-sm" onclick="openSaleInvModal('${s.id}')">
+              <i class="fas fa-file-invoice"></i> Invoice</button></td>
+          </tr>`).join('')}</tbody>
+        </table>` :
+        `<div class="table-empty" style="margin-top:10px"><span class="empty-icon">🚗</span><p>No sales yet</p></div>`;
+    }
+  } catch(err) {
+    console.error('Invoices page error:', err);
+    const wsEl   = document.getElementById('inv-ws-list');
+    const saleEl = document.getElementById('inv-sale-list');
+    const msg    = `<div class="table-empty"><p style="color:var(--red)">Could not load data — ${err.message||'Unknown error'}</p></div>`;
+    if (wsEl)   wsEl.innerHTML   = msg;
+    if (saleEl) saleEl.innerHTML = msg;
+  }
 }
+
 
 // ============================================================
 // ===== SERVICE INVOICE MODAL =====
