@@ -1,5 +1,5 @@
 /* ============================================================
-   CAR VAULT â€” INVOICE MODULE
+   CAR VAULT -- INVOICE MODULE
    Service Invoices (Workshop) + Vehicle Sale Invoices
    ============================================================ */
 
@@ -30,7 +30,7 @@ async function renderInvoices() {
   const content = document.getElementById('pageContent');
   if (!content) return;
 
-  // âš¡ Show the page shell IMMEDIATELY â€” no blank screen
+  // š¡ Show the page shell IMMEDIATELY -- no blank screen
   content.innerHTML = `
     <div class="section-header">
       <h2>ðŸ§¾ Invoice Generator</h2>
@@ -49,23 +49,23 @@ async function renderInvoices() {
           <div class="inv-type-icon amber-bg">ðŸ”§</div>
           <div>
             <h3>Workshop Service Invoices</h3>
-            <p class="inv-type-sub">Labour, parts &amp; servicing â€” customer pays for repairs</p>
+            <p class="inv-type-sub">Labour, parts &amp; servicing -- customer pays for repairs</p>
           </div>
         </div>
-        <div id="inv-ws-list"><div class="table-empty"><span class="empty-icon">â³</span><p>Loading workshop jobs...</p></div></div>
+        <div id="inv-ws-list"><div class="table-empty"><span class="empty-icon">³</span><p>Loading workshop jobs...</p></div></div>
         <button class="btn btn-primary inv-full-btn" onclick="openServiceInvModal()">
           <i class="fas fa-plus"></i> Create Blank Service Invoice
         </button>
       </div>
       <div class="invoice-type-card">
         <div class="inv-type-header">
-          <div class="inv-type-icon blue-bg">ðŸš—</div>
+          <div class="inv-type-icon blue-bg">ðŸš-</div>
           <div>
             <h3>Car Sale Invoices</h3>
-            <p class="inv-type-sub">Vehicle purchase receipts â€” proof of sale for buyer</p>
+            <p class="inv-type-sub">Vehicle purchase receipts -- proof of sale for buyer</p>
           </div>
         </div>
-        <div id="inv-sale-list"><div class="table-empty"><span class="empty-icon">â³</span><p>Loading sales...</p></div></div>
+        <div id="inv-sale-list"><div class="table-empty"><span class="empty-icon">³</span><p>Loading sales...</p></div></div>
         <button class="btn btn-secondary inv-full-btn" onclick="openSaleInvModal()">
           <i class="fas fa-plus"></i> Create Blank Sale Invoice
         </button>
@@ -87,9 +87,9 @@ async function renderInvoices() {
         <table class="data-table" style="margin-top:10px">
           <thead><tr><th>Reg</th><th>Job</th><th>Cost</th><th></th></tr></thead>
           <tbody>${ws.slice(0,7).map(j=>`<tr>
-            <td><span class="reg-plate">${j.vehicleReg||'â€”'}</span></td>
+            <td><span class="reg-plate">${j.vehicleReg||'--'}</span></td>
             <td><small>${j.mechanicalProblem||'Workshop job'}</small></td>
-            <td>Â£${((parseFloat(j.labourCost||0)+parseFloat(j.partsCost||0))).toLocaleString()}</td>
+            <td>£${((parseFloat(j.labourCost||0)+parseFloat(j.partsCost||0))).toLocaleString()}</td>
             <td><button class="btn btn-primary btn-sm" onclick="openServiceInvModal('${j.id}')">
               <i class="fas fa-file-invoice"></i> Invoice</button></td>
           </tr>`).join('')}</tbody>
@@ -104,20 +104,20 @@ async function renderInvoices() {
         <table class="data-table" style="margin-top:10px">
           <thead><tr><th>Reg</th><th>Buyer</th><th>Price</th><th></th></tr></thead>
           <tbody>${sales.slice(0,7).map(s=>`<tr>
-            <td><span class="reg-plate">${s.vehicleReg||'â€”'}</span></td>
-            <td>${s.buyerName||'â€”'}</td>
-            <td>Â£${parseFloat(s.salePrice||0).toLocaleString()}</td>
+            <td><span class="reg-plate">${s.vehicleReg||'--'}</span></td>
+            <td>${s.buyerName||'--'}</td>
+            <td>£${parseFloat(s.salePrice||0).toLocaleString()}</td>
             <td><button class="btn btn-secondary btn-sm" onclick="openSaleInvModal('${s.id}')">
               <i class="fas fa-file-invoice"></i> Invoice</button></td>
           </tr>`).join('')}</tbody>
         </table>` :
-        `<div class="table-empty" style="margin-top:10px"><span class="empty-icon">ðŸš—</span><p>No sales yet</p></div>`;
+        `<div class="table-empty" style="margin-top:10px"><span class="empty-icon">ðŸš-</span><p>No sales yet</p></div>`;
     }
   } catch(err) {
     console.error('Invoices page error:', err);
     const wsEl   = document.getElementById('inv-ws-list');
     const saleEl = document.getElementById('inv-sale-list');
-    const msg    = `<div class="table-empty"><p style="color:var(--red)">Could not load data â€” ${err.message||'Unknown error'}</p></div>`;
+    const msg    = `<div class="table-empty"><p style="color:var(--red)">Could not load data -- ${err.message||'Unknown error'}</p></div>`;
     if (wsEl)   wsEl.innerHTML   = msg;
     if (saleEl) saleEl.innerHTML = msg;
   }
@@ -169,7 +169,7 @@ function openServiceInvModal(jobId = null) {
         </div>
         <div class="inv-line-header">
           <span style="flex:3;min-width:0">Description</span>
-          <span style="width:90px;text-align:right">Rate (Â£)</span>
+          <span style="width:90px;text-align:right">Rate (£)</span>
           <span style="width:60px;text-align:center">Qty</span>
           <span style="width:80px;text-align:right">Amount</span>
           <span style="width:36px"></span>
@@ -189,9 +189,9 @@ function openServiceInvModal(jobId = null) {
           </select>
         </div>
         <div class="inv-totals-box">
-          <div class="inv-tot-row"><span>Subtotal</span><b id="invSub">Â£0.00</b></div>
-          <div class="inv-tot-row"><span id="invVatLbl">VAT (20%)</span><b id="invVatAmt">Â£0.00</b></div>
-          <div class="inv-tot-row grand"><span>TOTAL</span><b id="invGrand">Â£0.00</b></div>
+          <div class="inv-tot-row"><span>Subtotal</span><b id="invSub">£0.00</b></div>
+          <div class="inv-tot-row"><span id="invVatLbl">VAT (20%)</span><b id="invVatAmt">£0.00</b></div>
+          <div class="inv-tot-row grand"><span>TOTAL</span><b id="invGrand">£0.00</b></div>
         </div>
       </div>
     </div>
@@ -212,7 +212,7 @@ function buildInvRow(d='', r='', q='1') {
     <input class="form-control" placeholder="e.g. Labour / Oil Filter" value="${d}" oninput="recalcInv()" style="flex:3;min-width:0">
     <input class="form-control" type="number" step="0.01" placeholder="0.00" value="${r||''}" oninput="recalcInv()" style="width:90px;text-align:right">
     <input class="form-control" type="number" step="0.01" placeholder="1" value="${q||'1'}" oninput="recalcInv()" style="width:60px;text-align:center">
-    <span class="inv-row-amt" style="width:80px;text-align:right;font-weight:600;padding:0 6px;line-height:38px;font-size:13px">Â£${amt.toFixed(2)}</span>
+    <span class="inv-row-amt" style="width:80px;text-align:right;font-weight:600;padding:0 6px;line-height:38px;font-size:13px">£${amt.toFixed(2)}</span>
     <button type="button" class="btn btn-danger btn-sm btn-icon" onclick="document.getElementById('invR${idx}').remove();recalcInv()" style="width:36px;flex:none"><i class="fas fa-times"></i></button>
   </div>`;
 }
@@ -230,16 +230,16 @@ function recalcInv() {
     const ins = row.querySelectorAll('input');
     const amt = (parseFloat(ins[1]?.value)||0) * (parseFloat(ins[2]?.value)||0);
     const el  = row.querySelector('.inv-row-amt');
-    if (el) el.textContent = `Â£${amt.toFixed(2)}`;
+    if (el) el.textContent = `£${amt.toFixed(2)}`;
     sub += amt;
   });
   const vp  = parseFloat(document.getElementById('inv_vat')?.value||0);
   const va  = sub * (vp/100);
   const gr  = sub + va;
-  _setIfEl('invSub',    `Â£${sub.toFixed(2)}`);
-  _setIfEl('invVatAmt', `Â£${va.toFixed(2)}`);
+  _setIfEl('invSub',    `£${sub.toFixed(2)}`);
+  _setIfEl('invVatAmt', `£${va.toFixed(2)}`);
   _setIfEl('invVatLbl', `VAT (${vp}%)`);
-  _setIfEl('invGrand',  `Â£${gr.toFixed(2)}`);
+  _setIfEl('invGrand',  `£${gr.toFixed(2)}`);
 }
 
 function _setIfEl(id, txt) {
@@ -254,7 +254,7 @@ function doServiceInv() {
     const desc = ins[0]?.value?.trim();
     const rate = parseFloat(ins[1]?.value)||0;
     const qty  = parseFloat(ins[2]?.value)||0;
-    if (desc||rate) items.push({ desc:desc||'â€”', rate, qty });
+    if (desc||rate) items.push({ desc:desc||'--', rate, qty });
   });
   if (!items.length) { toast('Add at least one line item', 'error'); return; }
 
@@ -265,7 +265,7 @@ function doServiceInv() {
     type:'service',
     invNum:   document.getElementById('inv_num')?.value  || 'CV000',
     date:     document.getElementById('inv_date')?.value || today(),
-    customer: document.getElementById('inv_cust')?.value?.trim() || 'â€”',
+    customer: document.getElementById('inv_cust')?.value?.trim() || '--',
     phone:    document.getElementById('inv_phone')?.value?.trim() || '',
     vehicle:  document.getElementById('inv_veh')?.value?.trim() || '',
     reg:      (document.getElementById('inv_reg')?.value||'').toUpperCase(),
@@ -281,7 +281,7 @@ function openSaleInvModal(saleId = null) {
   const s = saleId ? (_salesCache||[]).find(x=>x.id===saleId) : null;
   const num = `SAL${getNextInvNum()}`;
 
-  document.getElementById('modalTitle').textContent = 'ðŸš— Create Car Sale Invoice';
+  document.getElementById('modalTitle').textContent = 'ðŸš- Create Car Sale Invoice';
   document.getElementById('modalBody').innerHTML = `
     <div class="invoice-form">
       <div class="form-grid">
@@ -290,7 +290,7 @@ function openSaleInvModal(saleId = null) {
         <div class="form-group"><label>Date</label>
           <input class="form-control" id="sinv_date" type="date" value="${s?.saleDate||today()}"></div>
 
-        <div class="form-group" style="grid-column:1/-1"><label style="font-weight:700;font-size:13px">â€” SELLER (Purchase From) â€”</label></div>
+        <div class="form-group" style="grid-column:1/-1"><label style="font-weight:700;font-size:13px">-- SELLER (Purchase From) --</label></div>
         <div class="form-group"><label>Seller Name</label>
           <input class="form-control" id="sinv_sname" placeholder="e.g. David Rothwell"></div>
         <div class="form-group"><label>Seller Address</label>
@@ -302,7 +302,7 @@ function openSaleInvModal(saleId = null) {
         <div class="form-group"><label>Seller Email</label>
           <input class="form-control" id="sinv_semail" placeholder="e.g. seller@email.com"></div>
 
-        <div class="form-group" style="grid-column:1/-1"><label style="font-weight:700;font-size:13px">â€” BUYER â€”</label></div>
+        <div class="form-group" style="grid-column:1/-1"><label style="font-weight:700;font-size:13px">-- BUYER --</label></div>
         <div class="form-group"><label>Buyer Name</label>
           <input class="form-control" id="sinv_buyer" value="${s?.buyerName||''}" placeholder="Full name"></div>
         <div class="form-group"><label>Buyer Address</label>
@@ -312,7 +312,7 @@ function openSaleInvModal(saleId = null) {
         <div class="form-group"><label>Buyer Email</label>
           <input class="form-control" id="sinv_email" placeholder="e.g. buyer@email.com"></div>
 
-        <div class="form-group" style="grid-column:1/-1"><label style="font-weight:700;font-size:13px">â€” VEHICLE BEING SOLD â€”</label></div>
+        <div class="form-group" style="grid-column:1/-1"><label style="font-weight:700;font-size:13px">-- VEHICLE BEING SOLD --</label></div>
         <div class="form-group"><label>Make</label>
           <input class="form-control" id="sinv_make" placeholder="e.g. Mercedes Benz"></div>
         <div class="form-group"><label>Model</label>
@@ -330,27 +330,27 @@ function openSaleInvModal(saleId = null) {
         <div class="form-group"><label>Date First Registered (UK)</label>
           <input class="form-control" id="sinv_regdate" placeholder="e.g. 24/03/2014"></div>
 
-        <div class="form-group" style="grid-column:1/-1"><label style="font-weight:700;font-size:13px">â€” FINANCIAL DETAILS â€”</label></div>
-        <div class="form-group"><label>Purchase Price (Â£)</label>
+        <div class="form-group" style="grid-column:1/-1"><label style="font-weight:700;font-size:13px">-- FINANCIAL DETAILS --</label></div>
+        <div class="form-group"><label>Purchase Price (£)</label>
           <input class="form-control" id="sinv_price" type="number" step="0.01" value="${s?.salePrice||''}" placeholder="0.00" oninput="recalcSaleInv()"></div>
-        <div class="form-group"><label>Insurance (Â£)</label>
+        <div class="form-group"><label>Insurance (£)</label>
           <input class="form-control" id="sinv_insurance" type="number" step="0.01" placeholder="0.00"></div>
-        <div class="form-group"><label>Warranty (Â£)</label>
+        <div class="form-group"><label>Warranty (£)</label>
           <input class="form-control" id="sinv_warranty" type="number" step="0.01" placeholder="0.00"></div>
-        <div class="form-group"><label>Deposit (Â£)</label>
+        <div class="form-group"><label>Deposit (£)</label>
           <input class="form-control" id="sinv_deposit" type="number" step="0.01" placeholder="0.00" oninput="recalcSaleInv()"></div>
-        <div class="form-group"><label>Service (Â£)</label>
+        <div class="form-group"><label>Service (£)</label>
           <input class="form-control" id="sinv_service" type="number" step="0.01" placeholder="0.00"></div>
-        <div class="form-group"><label>Settlement (Â£)</label>
+        <div class="form-group"><label>Settlement (£)</label>
           <input class="form-control" id="sinv_settlement" type="number" step="0.01" placeholder="0.00"></div>
-        <div class="form-group"><label>Part Ex (Â£)</label>
+        <div class="form-group"><label>Part Ex (£)</label>
           <input class="form-control" id="sinv_partex" type="number" step="0.01" placeholder="0.00"></div>
-        <div class="form-group"><label>Discount (Â£)</label>
+        <div class="form-group"><label>Discount (£)</label>
           <input class="form-control" id="sinv_discount" type="number" step="0.01" placeholder="0.00"></div>
-        <div class="form-group"><label>Balance Paid (Â£)</label>
+        <div class="form-group"><label>Balance Paid (£)</label>
           <input class="form-control" id="sinv_balpaid" type="number" step="0.01" placeholder="0.00" oninput="recalcSaleInv()"></div>
 
-        <div class="form-group" style="grid-column:1/-1"><label style="font-weight:700;font-size:13px">â€” EXTRA â€”</label></div>
+        <div class="form-group" style="grid-column:1/-1"><label style="font-weight:700;font-size:13px">-- EXTRA --</label></div>
         <div class="form-group"><label>Work Request Notes</label>
           <input class="form-control" id="sinv_work" placeholder="Any work to be carried out"></div>
         <div class="form-group"><label>Extended Warranty (months)</label>
@@ -361,14 +361,14 @@ function openSaleInvModal(saleId = null) {
             <option value="24">24 Months</option>
             <option value="36">36 Months</option>
           </select></div>
-        <div class="form-group"><label>Extended Warranty (Â£)</label>
+        <div class="form-group"><label>Extended Warranty (£)</label>
           <input class="form-control" id="sinv_ewprice" type="number" step="0.01" placeholder="0.00"></div>
       </div>
       <div class="inv-summary-bar" style="justify-content:flex-end">
         <div class="inv-totals-box">
-          <div class="inv-tot-row"><span>Purchase Price</span><b id="sinvPrice">Â£0.00</b></div>
-          <div class="inv-tot-row"><span>Deposit Paid</span><b id="sinvDeposit">Â£0.00</b></div>
-          <div class="inv-tot-row grand"><span>Balance Due</span><b id="sinvGrand" style="color:var(--accent)">Â£0.00</b></div>
+          <div class="inv-tot-row"><span>Purchase Price</span><b id="sinvPrice">£0.00</b></div>
+          <div class="inv-tot-row"><span>Deposit Paid</span><b id="sinvDeposit">£0.00</b></div>
+          <div class="inv-tot-row grand"><span>Balance Due</span><b id="sinvGrand" style="color:var(--accent)">£0.00</b></div>
         </div>
       </div>
     </div>
@@ -386,9 +386,9 @@ function recalcSaleInv() {
   const p  = parseFloat(document.getElementById('sinv_price')?.value||0);
   const dep= parseFloat(document.getElementById('sinv_deposit')?.value||0);
   const bal= p - dep;
-  _setIfEl('sinvPrice',   `Â£${p.toFixed(2)}`);
-  _setIfEl('sinvDeposit', `Â£${dep.toFixed(2)}`);
-  _setIfEl('sinvGrand',   `Â£${bal.toFixed(2)}`);
+  _setIfEl('sinvPrice',   `£${p.toFixed(2)}`);
+  _setIfEl('sinvDeposit', `£${dep.toFixed(2)}`);
+  _setIfEl('sinvGrand',   `£${bal.toFixed(2)}`);
 }
 
 function doSaleInv() {
@@ -428,7 +428,7 @@ function doSaleInv() {
 }
 
 function printSaleInvoice(d) {
-  const fmt = v => v > 0 ? `Â£${v.toFixed(2)}` : '';
+  const fmt = v => v > 0 ? `£${v.toFixed(2)}` : '';
   const bal = d.price - d.deposit;
   const dateStr = formatDate(d.date);
   const ewRows = ['3 Months','12 Months','24 Months','36 Months'].map(m => {
@@ -441,7 +441,7 @@ function printSaleInvoice(d) {
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Sale Invoice ${d.invNum} â€” Car Vault</title>
+<title>Sale Invoice ${d.invNum} -- Car Vault</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:Arial,sans-serif;color:#1a1a1a;background:#fff;font-size:11px}
@@ -494,7 +494,7 @@ body{font-family:Arial,sans-serif;color:#1a1a1a;background:#fff;font-size:11px}
 <div class="wrap">
   <div class="no-print">
     <button class="btn-print" onclick="window.print()">ðŸ–¨ï¸ Print / Save as PDF</button>
-    <button class="btn-close" onclick="window.close()">âœ• Close</button>
+    <button class="btn-close" onclick="window.close()">œ• Close</button>
   </div>
 
   <!-- HEADER -->
@@ -671,13 +671,13 @@ function printInvoice(d) {
   const rows = d.items.map(i=>`
     <tr>
       <td class="tc-d">${i.desc}</td>
-      <td class="tc-n">Â£${i.rate.toFixed(2)}</td>
+      <td class="tc-n">£${i.rate.toFixed(2)}</td>
       <td class="tc-n" style="text-align:center">${i.qty}</td>
-      <td class="tc-n"><strong>Â£${(i.rate*i.qty).toFixed(2)}</strong></td>
+      <td class="tc-n"><strong>£${(i.rate*i.qty).toFixed(2)}</strong></td>
     </tr>`).join('');
 
   const vatRow = d.vp > 0
-    ? `<tr><td colspan="3" class="tl">VAT (${d.vp}%)</td><td class="tv">Â£${d.va.toFixed(2)}</td></tr>` : '';
+    ? `<tr><td colspan="3" class="tl">VAT (${d.vp}%)</td><td class="tv">£${d.va.toFixed(2)}</td></tr>` : '';
 
   const extraBillTo = isSvc ? `
     ${d.vehicle?`<div class="bd">${d.vehicle}</div>`:''}
@@ -697,7 +697,7 @@ function printInvoice(d) {
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Invoice ${d.invNum} â€” Car Vault</title>
+<title>Invoice ${d.invNum} -- Car Vault</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;color:#1a1a1a;background:#fff;font-size:13px}
@@ -752,7 +752,7 @@ table.tsub{width:100%;border-collapse:collapse;margin:0}
 <div class="wrap">
   <div class="no-print">
     <button class="btn-print" onclick="window.print()">ðŸ–¨ï¸ Print / Save as PDF</button>
-    <button class="btn-close" onclick="window.close()">âœ• Close</button>
+    <button class="btn-close" onclick="window.close()">œ• Close</button>
     <span style="font-size:12px;color:#aaa;margin-left:8px">Tip: Choose "Save as PDF" in the print dialog</span>
   </div>
 
@@ -775,13 +775,13 @@ table.tsub{width:100%;border-collapse:collapse;margin:0}
       <span class="mlbl">Due</span>
       <div class="mval">On Receipt</div>
       <span class="mlbl">Balance Due</span>
-      <div class="mval bal">GBP Â£${d.grand.toFixed(2)}</div>
+      <div class="mval bal">GBP £${d.grand.toFixed(2)}</div>
     </div>
   </div>
 
   <div>
     <div class="section-lbl">Bill To</div>
-    <div class="badge">${isSvc?'ðŸ”§ Service Invoice':'ðŸš— Vehicle Sale Receipt'}</div>
+    <div class="badge">${isSvc?'ðŸ”§ Service Invoice':'ðŸš- Vehicle Sale Receipt'}</div>
     <div class="bn">${d.customer}</div>
     ${extraBillTo}
   </div>
@@ -799,21 +799,21 @@ table.tsub{width:100%;border-collapse:collapse;margin:0}
   <div class="tots">
     <div class="tots-inner">
       <table class="tsub">
-        <tr><td class="tl">Subtotal</td><td class="tv">Â£${d.sub.toFixed(2)}</td></tr>
+        <tr><td class="tl">Subtotal</td><td class="tv">£${d.sub.toFixed(2)}</td></tr>
         ${vatRow}
-        <tr class="tgrand"><td class="tl">Total</td><td class="tv">Â£${d.grand.toFixed(2)}</td></tr>
+        <tr class="tgrand"><td class="tl">Total</td><td class="tv">£${d.grand.toFixed(2)}</td></tr>
       </table>
       <div class="balbox">
         <div class="ballbl">Balance Due</div>
-        <div class="balval">GBP Â£${d.grand.toFixed(2)}</div>
+        <div class="balval">GBP £${d.grand.toFixed(2)}</div>
       </div>
     </div>
   </div>
 
   <div class="footer">
-    Thank you for your business! &nbsp;Â·&nbsp;
-    <strong>${COMPANY.name}</strong> &nbsp;Â·&nbsp;
-    ${COMPANY.phone} &nbsp;Â·&nbsp; ${COMPANY.email}
+    Thank you for your business! &nbsp;·&nbsp;
+    <strong>${COMPANY.name}</strong> &nbsp;·&nbsp;
+    ${COMPANY.phone} &nbsp;·&nbsp; ${COMPANY.email}
   </div>
 </div>
 </body></html>`;
