@@ -1,5 +1,5 @@
-﻿/* ============================================================
-   CAR VAULT — INVOICE MODULE
+/* ============================================================
+   CAR VAULT â€” INVOICE MODULE
    Service Invoices (Workshop) + Vehicle Sale Invoices
    ============================================================ */
 
@@ -30,10 +30,10 @@ async function renderInvoices() {
   const content = document.getElementById('pageContent');
   if (!content) return;
 
-  // ⚡ Show the page shell IMMEDIATELY — no blank screen
+  // âš¡ Show the page shell IMMEDIATELY â€” no blank screen
   content.innerHTML = `
     <div class="section-header">
-      <h2>🧾 Invoice Generator</h2>
+      <h2>ðŸ§¾ Invoice Generator</h2>
       <div class="section-actions">
         <button class="btn btn-primary" onclick="openServiceInvModal()">
           <i class="fas fa-tools"></i> New Service Invoice
@@ -46,26 +46,26 @@ async function renderInvoices() {
     <div class="invoice-types-grid">
       <div class="invoice-type-card">
         <div class="inv-type-header">
-          <div class="inv-type-icon amber-bg">🔧</div>
+          <div class="inv-type-icon amber-bg">ðŸ”§</div>
           <div>
             <h3>Workshop Service Invoices</h3>
-            <p class="inv-type-sub">Labour, parts &amp; servicing — customer pays for repairs</p>
+            <p class="inv-type-sub">Labour, parts &amp; servicing â€” customer pays for repairs</p>
           </div>
         </div>
-        <div id="inv-ws-list"><div class="table-empty"><span class="empty-icon">⏳</span><p>Loading workshop jobs...</p></div></div>
+        <div id="inv-ws-list"><div class="table-empty"><span class="empty-icon">â³</span><p>Loading workshop jobs...</p></div></div>
         <button class="btn btn-primary inv-full-btn" onclick="openServiceInvModal()">
           <i class="fas fa-plus"></i> Create Blank Service Invoice
         </button>
       </div>
       <div class="invoice-type-card">
         <div class="inv-type-header">
-          <div class="inv-type-icon blue-bg">🚗</div>
+          <div class="inv-type-icon blue-bg">ðŸš—</div>
           <div>
             <h3>Car Sale Invoices</h3>
-            <p class="inv-type-sub">Vehicle purchase receipts — proof of sale for buyer</p>
+            <p class="inv-type-sub">Vehicle purchase receipts â€” proof of sale for buyer</p>
           </div>
         </div>
-        <div id="inv-sale-list"><div class="table-empty"><span class="empty-icon">⏳</span><p>Loading sales...</p></div></div>
+        <div id="inv-sale-list"><div class="table-empty"><span class="empty-icon">â³</span><p>Loading sales...</p></div></div>
         <button class="btn btn-secondary inv-full-btn" onclick="openSaleInvModal()">
           <i class="fas fa-plus"></i> Create Blank Sale Invoice
         </button>
@@ -87,14 +87,14 @@ async function renderInvoices() {
         <table class="data-table" style="margin-top:10px">
           <thead><tr><th>Reg</th><th>Job</th><th>Cost</th><th></th></tr></thead>
           <tbody>${ws.slice(0,7).map(j=>`<tr>
-            <td><span class="reg-plate">${j.vehicleReg||'—'}</span></td>
+            <td><span class="reg-plate">${j.vehicleReg||'â€”'}</span></td>
             <td><small>${j.mechanicalProblem||'Workshop job'}</small></td>
-            <td>£${((parseFloat(j.labourCost||0)+parseFloat(j.partsCost||0))).toLocaleString()}</td>
+            <td>Â£${((parseFloat(j.labourCost||0)+parseFloat(j.partsCost||0))).toLocaleString()}</td>
             <td><button class="btn btn-primary btn-sm" onclick="openServiceInvModal('${j.id}')">
               <i class="fas fa-file-invoice"></i> Invoice</button></td>
           </tr>`).join('')}</tbody>
         </table>` :
-        `<div class="table-empty" style="margin-top:10px"><span class="empty-icon">🔧</span><p>No workshop jobs yet</p></div>`;
+        `<div class="table-empty" style="margin-top:10px"><span class="empty-icon">ðŸ”§</span><p>No workshop jobs yet</p></div>`;
     }
 
     // Sales table
@@ -104,20 +104,20 @@ async function renderInvoices() {
         <table class="data-table" style="margin-top:10px">
           <thead><tr><th>Reg</th><th>Buyer</th><th>Price</th><th></th></tr></thead>
           <tbody>${sales.slice(0,7).map(s=>`<tr>
-            <td><span class="reg-plate">${s.vehicleReg||'—'}</span></td>
-            <td>${s.buyerName||'—'}</td>
-            <td>£${parseFloat(s.salePrice||0).toLocaleString()}</td>
+            <td><span class="reg-plate">${s.vehicleReg||'â€”'}</span></td>
+            <td>${s.buyerName||'â€”'}</td>
+            <td>Â£${parseFloat(s.salePrice||0).toLocaleString()}</td>
             <td><button class="btn btn-secondary btn-sm" onclick="openSaleInvModal('${s.id}')">
               <i class="fas fa-file-invoice"></i> Invoice</button></td>
           </tr>`).join('')}</tbody>
         </table>` :
-        `<div class="table-empty" style="margin-top:10px"><span class="empty-icon">🚗</span><p>No sales yet</p></div>`;
+        `<div class="table-empty" style="margin-top:10px"><span class="empty-icon">ðŸš—</span><p>No sales yet</p></div>`;
     }
   } catch(err) {
     console.error('Invoices page error:', err);
     const wsEl   = document.getElementById('inv-ws-list');
     const saleEl = document.getElementById('inv-sale-list');
-    const msg    = `<div class="table-empty"><p style="color:var(--red)">Could not load data — ${err.message||'Unknown error'}</p></div>`;
+    const msg    = `<div class="table-empty"><p style="color:var(--red)">Could not load data â€” ${err.message||'Unknown error'}</p></div>`;
     if (wsEl)   wsEl.innerHTML   = msg;
     if (saleEl) saleEl.innerHTML = msg;
   }
@@ -144,7 +144,7 @@ function openServiceInvModal(jobId = null) {
   }
 
   const num = `CV${getNextInvNum()}`;
-  document.getElementById('modalTitle').textContent = '🔧 Create Service Invoice';
+  document.getElementById('modalTitle').textContent = 'ðŸ”§ Create Service Invoice';
   document.getElementById('modalBody').innerHTML = `
     <div class="invoice-form">
       <div class="form-grid">
@@ -169,7 +169,7 @@ function openServiceInvModal(jobId = null) {
         </div>
         <div class="inv-line-header">
           <span style="flex:3;min-width:0">Description</span>
-          <span style="width:90px;text-align:right">Rate (£)</span>
+          <span style="width:90px;text-align:right">Rate (Â£)</span>
           <span style="width:60px;text-align:center">Qty</span>
           <span style="width:80px;text-align:right">Amount</span>
           <span style="width:36px"></span>
@@ -189,9 +189,9 @@ function openServiceInvModal(jobId = null) {
           </select>
         </div>
         <div class="inv-totals-box">
-          <div class="inv-tot-row"><span>Subtotal</span><b id="invSub">£0.00</b></div>
-          <div class="inv-tot-row"><span id="invVatLbl">VAT (20%)</span><b id="invVatAmt">£0.00</b></div>
-          <div class="inv-tot-row grand"><span>TOTAL</span><b id="invGrand">£0.00</b></div>
+          <div class="inv-tot-row"><span>Subtotal</span><b id="invSub">Â£0.00</b></div>
+          <div class="inv-tot-row"><span id="invVatLbl">VAT (20%)</span><b id="invVatAmt">Â£0.00</b></div>
+          <div class="inv-tot-row grand"><span>TOTAL</span><b id="invGrand">Â£0.00</b></div>
         </div>
       </div>
     </div>
@@ -212,7 +212,7 @@ function buildInvRow(d='', r='', q='1') {
     <input class="form-control" placeholder="e.g. Labour / Oil Filter" value="${d}" oninput="recalcInv()" style="flex:3;min-width:0">
     <input class="form-control" type="number" step="0.01" placeholder="0.00" value="${r||''}" oninput="recalcInv()" style="width:90px;text-align:right">
     <input class="form-control" type="number" step="0.01" placeholder="1" value="${q||'1'}" oninput="recalcInv()" style="width:60px;text-align:center">
-    <span class="inv-row-amt" style="width:80px;text-align:right;font-weight:600;padding:0 6px;line-height:38px;font-size:13px">£${amt.toFixed(2)}</span>
+    <span class="inv-row-amt" style="width:80px;text-align:right;font-weight:600;padding:0 6px;line-height:38px;font-size:13px">Â£${amt.toFixed(2)}</span>
     <button type="button" class="btn btn-danger btn-sm btn-icon" onclick="document.getElementById('invR${idx}').remove();recalcInv()" style="width:36px;flex:none"><i class="fas fa-times"></i></button>
   </div>`;
 }
@@ -230,16 +230,16 @@ function recalcInv() {
     const ins = row.querySelectorAll('input');
     const amt = (parseFloat(ins[1]?.value)||0) * (parseFloat(ins[2]?.value)||0);
     const el  = row.querySelector('.inv-row-amt');
-    if (el) el.textContent = `£${amt.toFixed(2)}`;
+    if (el) el.textContent = `Â£${amt.toFixed(2)}`;
     sub += amt;
   });
   const vp  = parseFloat(document.getElementById('inv_vat')?.value||0);
   const va  = sub * (vp/100);
   const gr  = sub + va;
-  _setIfEl('invSub',    `£${sub.toFixed(2)}`);
-  _setIfEl('invVatAmt', `£${va.toFixed(2)}`);
+  _setIfEl('invSub',    `Â£${sub.toFixed(2)}`);
+  _setIfEl('invVatAmt', `Â£${va.toFixed(2)}`);
   _setIfEl('invVatLbl', `VAT (${vp}%)`);
-  _setIfEl('invGrand',  `£${gr.toFixed(2)}`);
+  _setIfEl('invGrand',  `Â£${gr.toFixed(2)}`);
 }
 
 function _setIfEl(id, txt) {
@@ -254,7 +254,7 @@ function doServiceInv() {
     const desc = ins[0]?.value?.trim();
     const rate = parseFloat(ins[1]?.value)||0;
     const qty  = parseFloat(ins[2]?.value)||0;
-    if (desc||rate) items.push({ desc:desc||'—', rate, qty });
+    if (desc||rate) items.push({ desc:desc||'â€”', rate, qty });
   });
   if (!items.length) { toast('Add at least one line item', 'error'); return; }
 
@@ -265,7 +265,7 @@ function doServiceInv() {
     type:'service',
     invNum:   document.getElementById('inv_num')?.value  || 'CV000',
     date:     document.getElementById('inv_date')?.value || today(),
-    customer: document.getElementById('inv_cust')?.value?.trim() || '—',
+    customer: document.getElementById('inv_cust')?.value?.trim() || 'â€”',
     phone:    document.getElementById('inv_phone')?.value?.trim() || '',
     vehicle:  document.getElementById('inv_veh')?.value?.trim() || '',
     reg:      (document.getElementById('inv_reg')?.value||'').toUpperCase(),
@@ -281,7 +281,7 @@ function openSaleInvModal(saleId = null) {
   const s = saleId ? (_salesCache||[]).find(x=>x.id===saleId) : null;
   const num = `SAL${getNextInvNum()}`;
 
-  document.getElementById('modalTitle').textContent = '🚗 Create Car Sale Invoice';
+  document.getElementById('modalTitle').textContent = 'ðŸš— Create Car Sale Invoice';
   document.getElementById('modalBody').innerHTML = `
     <div class="invoice-form">
       <div class="form-grid">
@@ -289,35 +289,86 @@ function openSaleInvModal(saleId = null) {
           <input class="form-control" id="sinv_num" value="${num}"></div>
         <div class="form-group"><label>Date</label>
           <input class="form-control" id="sinv_date" type="date" value="${s?.saleDate||today()}"></div>
+
+        <div class="form-group" style="grid-column:1/-1"><label style="font-weight:700;font-size:13px">â€” SELLER (Purchase From) â€”</label></div>
+        <div class="form-group"><label>Seller Name</label>
+          <input class="form-control" id="sinv_sname" placeholder="e.g. David Rothwell"></div>
+        <div class="form-group"><label>Seller Address</label>
+          <input class="form-control" id="sinv_saddr" placeholder="e.g. 5 Keble Road, Brackley"></div>
+        <div class="form-group"><label>Seller Postcode</label>
+          <input class="form-control" id="sinv_spost" placeholder="e.g. NN13 6DS"></div>
+        <div class="form-group"><label>Seller Phone</label>
+          <input class="form-control" id="sinv_sphone" placeholder="e.g. 07712 345678"></div>
+        <div class="form-group"><label>Seller Email</label>
+          <input class="form-control" id="sinv_semail" placeholder="e.g. seller@email.com"></div>
+
+        <div class="form-group" style="grid-column:1/-1"><label style="font-weight:700;font-size:13px">â€” BUYER â€”</label></div>
         <div class="form-group"><label>Buyer Name</label>
           <input class="form-control" id="sinv_buyer" value="${s?.buyerName||''}" placeholder="Full name"></div>
-        <div class="form-group"><label>Buyer Phone</label>
-          <input class="form-control" id="sinv_phone" placeholder="e.g. 07712 345678"></div>
         <div class="form-group"><label>Buyer Address</label>
           <input class="form-control" id="sinv_addr" placeholder="e.g. 12 High Street, Luton"></div>
-        <div class="form-group"><label>Vehicle Make &amp; Model</label>
-          <input class="form-control" id="sinv_veh" value="${s?.vehicleDesc||''}" placeholder="e.g. BMW 3 Series 320d M Sport 2020"></div>
+        <div class="form-group"><label>Buyer Phone</label>
+          <input class="form-control" id="sinv_phone" placeholder="e.g. 07712 345678"></div>
+        <div class="form-group"><label>Buyer Email</label>
+          <input class="form-control" id="sinv_email" placeholder="e.g. buyer@email.com"></div>
+
+        <div class="form-group" style="grid-column:1/-1"><label style="font-weight:700;font-size:13px">â€” VEHICLE BEING SOLD â€”</label></div>
+        <div class="form-group"><label>Make</label>
+          <input class="form-control" id="sinv_make" placeholder="e.g. Mercedes Benz"></div>
+        <div class="form-group"><label>Model</label>
+          <input class="form-control" id="sinv_model" value="${s?.vehicleDesc||''}" placeholder="e.g. E Class"></div>
         <div class="form-group"><label>Registration</label>
-          <input class="form-control" id="sinv_reg" value="${s?.vehicleReg||''}" style="text-transform:uppercase" placeholder="e.g. AB12 CDE"></div>
+          <input class="form-control" id="sinv_reg" value="${s?.vehicleReg||''}" style="text-transform:uppercase" placeholder="e.g. W8DBR"></div>
+        <div class="form-group"><label>Mileage</label>
+          <input class="form-control" id="sinv_miles" placeholder="e.g. 125696"></div>
+        <div class="form-group"><label>Chassis No.</label>
+          <input class="form-control" id="sinv_chassis" placeholder="e.g. WDD2073262F268279"></div>
+        <div class="form-group"><label>Engine No.</label>
+          <input class="form-control" id="sinv_engine" placeholder="e.g. 64283841551669"></div>
         <div class="form-group"><label>Colour</label>
-          <input class="form-control" id="sinv_colour" placeholder="e.g. Midnight Black"></div>
-        <div class="form-group"><label>Mileage at Sale</label>
-          <input class="form-control" id="sinv_miles" placeholder="e.g. 45,000"></div>
-        <div class="form-group"><label>Payment Method</label>
-          <select class="form-control" id="sinv_pay">
-            ${['Cash','Finance','Part-Exchange','Bank Transfer','Debit Card'].map(m=>`<option ${s?.paymentMethod?.toLowerCase()===m.toLowerCase()?'selected':''}>${m}</option>`).join('')}
-          </select></div>
-        <div class="form-group"><label>Sale Price (£)</label>
+          <input class="form-control" id="sinv_colour" placeholder="e.g. White"></div>
+        <div class="form-group"><label>Date First Registered (UK)</label>
+          <input class="form-control" id="sinv_regdate" placeholder="e.g. 24/03/2014"></div>
+
+        <div class="form-group" style="grid-column:1/-1"><label style="font-weight:700;font-size:13px">â€” FINANCIAL DETAILS â€”</label></div>
+        <div class="form-group"><label>Purchase Price (Â£)</label>
           <input class="form-control" id="sinv_price" type="number" step="0.01" value="${s?.salePrice||''}" placeholder="0.00" oninput="recalcSaleInv()"></div>
-        <div class="form-group"><label>VAT</label>
-          <select class="form-control" id="sinv_vat" onchange="recalcSaleInv()">
-            <option value="0" selected>0% — Private sale</option>
-            <option value="20">20% — Trade</option>
+        <div class="form-group"><label>Insurance (Â£)</label>
+          <input class="form-control" id="sinv_insurance" type="number" step="0.01" placeholder="0.00"></div>
+        <div class="form-group"><label>Warranty (Â£)</label>
+          <input class="form-control" id="sinv_warranty" type="number" step="0.01" placeholder="0.00"></div>
+        <div class="form-group"><label>Deposit (Â£)</label>
+          <input class="form-control" id="sinv_deposit" type="number" step="0.01" placeholder="0.00" oninput="recalcSaleInv()"></div>
+        <div class="form-group"><label>Service (Â£)</label>
+          <input class="form-control" id="sinv_service" type="number" step="0.01" placeholder="0.00"></div>
+        <div class="form-group"><label>Settlement (Â£)</label>
+          <input class="form-control" id="sinv_settlement" type="number" step="0.01" placeholder="0.00"></div>
+        <div class="form-group"><label>Part Ex (Â£)</label>
+          <input class="form-control" id="sinv_partex" type="number" step="0.01" placeholder="0.00"></div>
+        <div class="form-group"><label>Discount (Â£)</label>
+          <input class="form-control" id="sinv_discount" type="number" step="0.01" placeholder="0.00"></div>
+        <div class="form-group"><label>Balance Paid (Â£)</label>
+          <input class="form-control" id="sinv_balpaid" type="number" step="0.01" placeholder="0.00" oninput="recalcSaleInv()"></div>
+
+        <div class="form-group" style="grid-column:1/-1"><label style="font-weight:700;font-size:13px">â€” EXTRA â€”</label></div>
+        <div class="form-group"><label>Work Request Notes</label>
+          <input class="form-control" id="sinv_work" placeholder="Any work to be carried out"></div>
+        <div class="form-group"><label>Extended Warranty (months)</label>
+          <select class="form-control" id="sinv_ewmonths">
+            <option value="">None</option>
+            <option value="3">3 Months</option>
+            <option value="12">12 Months</option>
+            <option value="24">24 Months</option>
+            <option value="36">36 Months</option>
           </select></div>
+        <div class="form-group"><label>Extended Warranty (Â£)</label>
+          <input class="form-control" id="sinv_ewprice" type="number" step="0.01" placeholder="0.00"></div>
       </div>
       <div class="inv-summary-bar" style="justify-content:flex-end">
         <div class="inv-totals-box">
-          <div class="inv-tot-row grand"><span>TOTAL DUE</span><b id="sinvGrand" style="color:var(--accent)">£0.00</b></div>
+          <div class="inv-tot-row"><span>Purchase Price</span><b id="sinvPrice">Â£0.00</b></div>
+          <div class="inv-tot-row"><span>Deposit Paid</span><b id="sinvDeposit">Â£0.00</b></div>
+          <div class="inv-tot-row grand"><span>Balance Due</span><b id="sinvGrand" style="color:var(--accent)">Â£0.00</b></div>
         </div>
       </div>
     </div>
@@ -332,35 +383,282 @@ function openSaleInvModal(saleId = null) {
 }
 
 function recalcSaleInv() {
-  const p = parseFloat(document.getElementById('sinv_price')?.value||0);
-  const v = parseFloat(document.getElementById('sinv_vat')?.value||0)/100;
-  const el = document.getElementById('sinvGrand');
-  if (el) el.textContent = `£${(p*(1+v)).toFixed(2)}`;
+  const p  = parseFloat(document.getElementById('sinv_price')?.value||0);
+  const dep= parseFloat(document.getElementById('sinv_deposit')?.value||0);
+  const bal= p - dep;
+  _setIfEl('sinvPrice',   `Â£${p.toFixed(2)}`);
+  _setIfEl('sinvDeposit', `Â£${dep.toFixed(2)}`);
+  _setIfEl('sinvGrand',   `Â£${bal.toFixed(2)}`);
 }
 
 function doSaleInv() {
-  const price = parseFloat(document.getElementById('sinv_price')?.value||0);
-  const vp    = parseFloat(document.getElementById('sinv_vat')?.value||0);
-  const va    = price*(vp/100);
-  const veh   = document.getElementById('sinv_veh')?.value?.trim()||'';
-  const reg   = (document.getElementById('sinv_reg')?.value||'').toUpperCase();
-  const desc  = [veh, reg ? `Reg: ${reg}` : ''].filter(Boolean).join(' · ');
-
-  printInvoice({
-    type:'sale',
-    invNum:   document.getElementById('sinv_num')?.value   || 'SAL000',
-    date:     document.getElementById('sinv_date')?.value  || today(),
-    customer: document.getElementById('sinv_buyer')?.value?.trim() || '—',
-    phone:    document.getElementById('sinv_phone')?.value?.trim() || '',
-    address:  document.getElementById('sinv_addr')?.value?.trim()  || '',
-    vehicle: veh, reg,
-    colour:  document.getElementById('sinv_colour')?.value||'',
-    mileage: document.getElementById('sinv_miles')?.value||'',
-    payment: document.getElementById('sinv_pay')?.value||'Cash',
-    items:[{ desc: desc||'Vehicle', rate:price, qty:1 }],
-    sub:price, vp, va, grand:price+va
+  const g = id => document.getElementById(id)?.value?.trim()||'';
+  const n = id => parseFloat(document.getElementById(id)?.value||0);
+  const price = n('sinv_price');
+  const dep   = n('sinv_deposit');
+  const balpaid = n('sinv_balpaid');
+  const ewm   = g('sinv_ewmonths');
+  const ewp   = n('sinv_ewprice');
+  printSaleInvoice({
+    invNum:     g('sinv_num') || 'SAL000',
+    date:       g('sinv_date') || today(),
+    sellerName: g('sinv_sname'),
+    sellerAddr: g('sinv_saddr'),
+    sellerPost: g('sinv_spost'),
+    sellerPhone:g('sinv_sphone'),
+    sellerEmail:g('sinv_semail'),
+    buyerName:  g('sinv_buyer'),
+    buyerAddr:  g('sinv_addr'),
+    buyerPhone: g('sinv_phone'),
+    buyerEmail: g('sinv_email'),
+    make:       g('sinv_make'),
+    model:      g('sinv_model'),
+    reg:        (document.getElementById('sinv_reg')?.value||'').toUpperCase(),
+    mileage:    g('sinv_miles'),
+    chassis:    g('sinv_chassis'),
+    engine:     g('sinv_engine'),
+    colour:     g('sinv_colour'),
+    regDate:    g('sinv_regdate'),
+    price, insurance: n('sinv_insurance'), warranty: n('sinv_warranty'),
+    deposit: dep, service: n('sinv_service'), settlement: n('sinv_settlement'),
+    partex: n('sinv_partex'), discount: n('sinv_discount'), balancePaid: balpaid,
+    work: g('sinv_work'), ewMonths: ewm, ewPrice: ewp
   });
   closeModal();
+}
+
+function printSaleInvoice(d) {
+  const fmt = v => v > 0 ? `Â£${v.toFixed(2)}` : '';
+  const bal = d.price - d.deposit;
+  const dateStr = formatDate(d.date);
+  const ewRows = ['3 Months','12 Months','24 Months','36 Months'].map(m => {
+    const label = m.split(' ')[0];
+    const isChosen = d.ewMonths && d.ewMonths === label;
+    return `<tr><td class="ew-lbl">${m}</td><td class="ew-val">${isChosen ? fmt(d.ewPrice) : ''}</td></tr>`;
+  }).join('');
+
+  const html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Sale Invoice ${d.invNum} â€” Car Vault</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Arial,sans-serif;color:#1a1a1a;background:#fff;font-size:11px}
+.wrap{max-width:800px;margin:0 auto;padding:30px 36px}
+.no-print{margin-bottom:18px;display:flex;gap:10px}
+.btn-print{background:#111;color:#fff;border:none;padding:10px 20px;border-radius:6px;font-size:12px;font-weight:700;cursor:pointer}
+.btn-close{background:#eee;color:#333;border:none;padding:10px 16px;border-radius:6px;font-size:12px;cursor:pointer}
+/* HEADER */
+.hdr{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:20px}
+.cv-logo{height:52px;width:auto}
+.co-addr{font-size:10px;color:#333;line-height:1.7;text-align:right}
+/* PURCHASE FROM */
+.pf-title{font-size:11px;font-weight:700;margin-bottom:6px}
+.pf-table{width:100%;border-collapse:collapse;margin-bottom:14px}
+.pf-table td{border:1px solid #999;padding:5px 8px;font-size:10.5px;vertical-align:top}
+.pf-table .lbl{font-weight:700;width:90px;white-space:nowrap}
+.pf-table .half{width:50%}
+/* VEHICLE GRID */
+.veh-table{width:100%;border-collapse:collapse;margin-bottom:10px}
+.veh-table thead tr td{background:#555;color:#fff;font-weight:700;padding:5px 8px;font-size:10.5px}
+.veh-table tbody tr td{border:1px solid #bbb;padding:5px 8px;font-size:10.5px;vertical-align:top}
+.veh-table .vlbl{font-weight:700;width:130px;color:#333}
+.veh-table .vval{min-width:90px}
+.veh-table .flbl{font-weight:700;width:120px;color:#333}
+.veh-table .fval{min-width:80px;text-align:right}
+/* BOTTOM SECTIONS */
+.bottom-row{display:flex;gap:0;margin-bottom:10px}
+.work-box{flex:1;border:1px solid #999;padding:8px;min-height:80px}
+.work-title{font-weight:700;font-size:11px;margin-bottom:6px}
+.work-line{border-bottom:1px dotted #bbb;min-height:18px;margin-bottom:4px}
+.ew-box{border:1px solid #999;border-left:none;min-width:180px}
+.ew-table{width:100%;border-collapse:collapse}
+.ew-table .ew-lbl{background:#ccc;font-weight:700;padding:4px 8px;font-size:10px;border-bottom:1px solid #bbb}
+.ew-table .ew-val{padding:4px 8px;font-size:10px;border-bottom:1px solid #bbb;text-align:right}
+/* DECLARATION */
+.decl{font-size:9.5px;color:#333;border:1px solid #999;padding:8px;margin-bottom:10px;line-height:1.5}
+.decl-footer{font-size:9px;text-align:center;background:#eee;border:1px solid #999;padding:5px;margin-bottom:12px}
+/* SIGS */
+.sig-table{width:100%;border-collapse:collapse}
+.sig-table td{padding:4px 0;font-size:10.5px;vertical-align:bottom;width:50%}
+.sig-line{border-bottom:1px solid #333;min-height:20px;margin:0 4px;display:inline-block;width:55%}
+.sig-label{font-weight:700}
+@media print{
+  .no-print{display:none!important}
+  body{print-color-adjust:exact;-webkit-print-color-adjust:exact}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="no-print">
+    <button class="btn-print" onclick="window.print()">ðŸ–¨ï¸ Print / Save as PDF</button>
+    <button class="btn-close" onclick="window.close()">âœ• Close</button>
+  </div>
+
+  <!-- HEADER -->
+  <div class="hdr">
+    <img src="${CV_LOGO_B64}" alt="Car Vault" class="cv-logo">
+    <div class="co-addr">
+      ${COMPANY.line1}<br>${COMPANY.city}<br>${COMPANY.postcode}<br>
+      Phone: ${COMPANY.phone}<br>Mobile: 07769995625<br>
+      ${COMPANY.email}<br>www.carvaultuk.co.uk
+    </div>
+  </div>
+
+  <!-- PURCHASE FROM -->
+  <div class="pf-title">Purchase From</div>
+  <table class="pf-table">
+    <tr>
+      <td class="half"><span class="lbl">NAME:</span> ${d.sellerName}</td>
+      <td class="half"><span class="lbl">NAME:</span></td>
+    </tr>
+    <tr>
+      <td><span class="lbl">ADDRESS:</span> ${d.sellerAddr}</td>
+      <td><span class="lbl">ADDRESS:</span> ${d.buyerAddr}</td>
+    </tr>
+    <tr>
+      <td>${d.sellerPost}</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><span class="lbl">PHONE:</span> ${d.sellerPhone}</td>
+      <td><span class="lbl">PHONE:</span> ${d.buyerPhone}</td>
+    </tr>
+    <tr>
+      <td><span class="lbl">email:</span> ${d.sellerEmail}</td>
+      <td><span class="lbl">email:</span> ${d.buyerEmail}</td>
+    </tr>
+  </table>
+
+  <!-- VEHICLE + FINANCIALS -->
+  <table class="veh-table">
+    <thead><tr><td colspan="4" style="background:#555;color:#fff;font-weight:700;padding:5px 8px;font-size:10.5px"></td></tr></thead>
+    <tbody>
+      <tr>
+        <td class="vlbl">Make</td>
+        <td class="vval">${d.make}</td>
+        <td class="flbl">Purchase Price</td>
+        <td class="fval">${fmt(d.price)}</td>
+      </tr>
+      <tr>
+        <td class="vlbl">Model</td>
+        <td class="vval">${d.model}</td>
+        <td class="flbl">Insurance</td>
+        <td class="fval">${fmt(d.insurance)}</td>
+      </tr>
+      <tr>
+        <td class="vlbl">Reg No.</td>
+        <td class="vval">${d.reg}</td>
+        <td class="flbl">Warranty</td>
+        <td class="fval">${fmt(d.warranty)}</td>
+      </tr>
+      <tr>
+        <td class="vlbl">Mileage</td>
+        <td class="vval">${d.mileage}</td>
+        <td class="flbl">Deposit</td>
+        <td class="fval">${fmt(d.deposit)}</td>
+      </tr>
+      <tr>
+        <td class="vlbl">Chassis No.</td>
+        <td class="vval">${d.chassis}</td>
+        <td class="flbl">Service</td>
+        <td class="fval">${fmt(d.service)}</td>
+      </tr>
+      <tr>
+        <td class="vlbl">Engine No.</td>
+        <td class="vval">${d.engine}</td>
+        <td class="flbl">Settlement</td>
+        <td class="fval">${fmt(d.settlement)}</td>
+      </tr>
+      <tr>
+        <td class="vlbl">Colour</td>
+        <td class="vval">${d.colour}</td>
+        <td class="flbl">Part Ex</td>
+        <td class="fval">${fmt(d.partex)}</td>
+      </tr>
+      <tr>
+        <td class="vlbl">Date first registered in the UK</td>
+        <td class="vval">${d.regDate}</td>
+        <td class="flbl">Discount</td>
+        <td class="fval">${fmt(d.discount)}</td>
+      </tr>
+      <tr><td colspan="4" style="background:#777;height:4px"></td></tr>
+      <tr>
+        <td class="vlbl">Make</td><td class="vval"></td>
+        <td class="flbl">Deposit</td><td class="fval"></td>
+      </tr>
+      <tr>
+        <td class="vlbl">Model</td><td class="vval"></td>
+        <td class="flbl">Balance</td><td class="fval">${fmt(bal)}</td>
+      </tr>
+      <tr>
+        <td class="vlbl">Reg No.</td><td class="vval"></td>
+        <td class="flbl">Balance Paid</td><td class="fval">${fmt(d.balancePaid)}</td>
+      </tr>
+      <tr>
+        <td class="vlbl">Milage</td><td class="vval"></td>
+        <td class="flbl"></td><td class="fval"></td>
+      </tr>
+      <tr>
+        <td class="vlbl">Chasis No.</td><td class="vval"></td>
+        <td class="flbl"></td><td class="fval"></td>
+      </tr>
+      <tr>
+        <td colspan="2" style="text-align:right;font-weight:700;padding:5px 8px">Total Paid/Balance</td>
+        <td colspan="2" style="font-weight:700;padding:5px 8px;text-align:right">${fmt(d.balancePaid||d.price)}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- WORK REQUEST + EXTENDED WARRANTY -->
+  <div class="bottom-row">
+    <div class="work-box">
+      <div class="work-title">Work Request:</div>
+      <div class="work-line">${d.work||''}</div>
+      <div class="work-line"></div>
+      <div class="work-line"></div>
+    </div>
+    <div class="ew-box">
+      <table class="ew-table">
+        <tr><td colspan="2" style="background:#555;color:#fff;font-weight:700;padding:4px 8px;font-size:10px">Extended Warranty</td></tr>
+        ${ewRows}
+      </table>
+    </div>
+  </div>
+
+  <!-- DECLARATION -->
+  <div class="decl">
+    Declaration :- I am signing to confirm that I am the registered keeper and owner of the car and have sold this car London Road Motors Ltd T/A Car Vault for the above mentioned price and have received the payment.
+  </div>
+  <div class="decl-footer">
+    London Road Motors Ltd T/A Car Vault, Company Registration Number: 11226899, Registered Address: 25 South Mundells, Welwyn Garden City, AL7 1EP
+  </div>
+
+  <!-- SIGNATURES -->
+  <table class="sig-table">
+    <tr>
+      <td><span class="sig-label">Customer Sign:</span><span class="sig-line"></span></td>
+      <td><span class="sig-label">Dealer Sign:</span><span class="sig-line"></span></td>
+    </tr>
+    <tr>
+      <td style="padding-top:10px"><span class="sig-label">Date:</span><span class="sig-line"></span></td>
+      <td style="padding-top:10px"><span class="sig-label">Date:</span><span class="sig-line"></span></td>
+    </tr>
+    <tr>
+      <td style="padding-top:10px"><span class="sig-label">Invoice N: ${d.invNum}</span></td>
+      <td style="padding-top:10px"><span class="sig-label">Collection Date:</span><span class="sig-line"></span></td>
+    </tr>
+  </table>
+</div>
+</body></html>`;
+
+  const w = window.open('', '_blank', 'width=880,height=1150,menubar=yes,toolbar=yes');
+  if (!w) { toast('Please allow popups for invoice printing', 'error'); return; }
+  w.document.write(html);
+  w.document.close();
+  w.focus();
 }
 
 // ============================================================
@@ -373,23 +671,23 @@ function printInvoice(d) {
   const rows = d.items.map(i=>`
     <tr>
       <td class="tc-d">${i.desc}</td>
-      <td class="tc-n">£${i.rate.toFixed(2)}</td>
+      <td class="tc-n">Â£${i.rate.toFixed(2)}</td>
       <td class="tc-n" style="text-align:center">${i.qty}</td>
-      <td class="tc-n"><strong>£${(i.rate*i.qty).toFixed(2)}</strong></td>
+      <td class="tc-n"><strong>Â£${(i.rate*i.qty).toFixed(2)}</strong></td>
     </tr>`).join('');
 
   const vatRow = d.vp > 0
-    ? `<tr><td colspan="3" class="tl">VAT (${d.vp}%)</td><td class="tv">£${d.va.toFixed(2)}</td></tr>` : '';
+    ? `<tr><td colspan="3" class="tl">VAT (${d.vp}%)</td><td class="tv">Â£${d.va.toFixed(2)}</td></tr>` : '';
 
   const extraBillTo = isSvc ? `
     ${d.vehicle?`<div class="bd">${d.vehicle}</div>`:''}
-    ${d.reg?`<div class="bd">📋 Reg: <strong>${d.reg}</strong></div>`:''}
-    ${d.phone?`<div class="bd">📞 ${d.phone}</div>`:''}
+    ${d.reg?`<div class="bd">ðŸ“‹ Reg: <strong>${d.reg}</strong></div>`:''}
+    ${d.phone?`<div class="bd">ðŸ“ž ${d.phone}</div>`:''}
   ` : `
     ${d.address?`<div class="bd">${d.address}</div>`:''}
     ${d.vehicle?`<div class="bd">${d.vehicle}</div>`:''}
-    ${d.reg?`<div class="bd">📋 Reg: <strong>${d.reg}</strong></div>`:''}
-    ${d.phone?`<div class="bd">📞 ${d.phone}</div>`:''}
+    ${d.reg?`<div class="bd">ðŸ“‹ Reg: <strong>${d.reg}</strong></div>`:''}
+    ${d.phone?`<div class="bd">ðŸ“ž ${d.phone}</div>`:''}
     ${d.mileage?`<div class="bd">Mileage: ${parseInt(d.mileage.replace(/,/g,'')).toLocaleString()} miles</div>`:''}
     ${d.colour?`<div class="bd">Colour: ${d.colour}</div>`:''}
     ${d.payment?`<div class="bd">Payment: ${d.payment}</div>`:''}
@@ -399,7 +697,7 @@ function printInvoice(d) {
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Invoice ${d.invNum} — Car Vault</title>
+<title>Invoice ${d.invNum} â€” Car Vault</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;color:#1a1a1a;background:#fff;font-size:13px}
@@ -453,8 +751,8 @@ table.tsub{width:100%;border-collapse:collapse;margin:0}
 <body>
 <div class="wrap">
   <div class="no-print">
-    <button class="btn-print" onclick="window.print()">🖨️ Print / Save as PDF</button>
-    <button class="btn-close" onclick="window.close()">✕ Close</button>
+    <button class="btn-print" onclick="window.print()">ðŸ–¨ï¸ Print / Save as PDF</button>
+    <button class="btn-close" onclick="window.close()">âœ• Close</button>
     <span style="font-size:12px;color:#aaa;margin-left:8px">Tip: Choose "Save as PDF" in the print dialog</span>
   </div>
 
@@ -477,13 +775,13 @@ table.tsub{width:100%;border-collapse:collapse;margin:0}
       <span class="mlbl">Due</span>
       <div class="mval">On Receipt</div>
       <span class="mlbl">Balance Due</span>
-      <div class="mval bal">GBP £${d.grand.toFixed(2)}</div>
+      <div class="mval bal">GBP Â£${d.grand.toFixed(2)}</div>
     </div>
   </div>
 
   <div>
     <div class="section-lbl">Bill To</div>
-    <div class="badge">${isSvc?'🔧 Service Invoice':'🚗 Vehicle Sale Receipt'}</div>
+    <div class="badge">${isSvc?'ðŸ”§ Service Invoice':'ðŸš— Vehicle Sale Receipt'}</div>
     <div class="bn">${d.customer}</div>
     ${extraBillTo}
   </div>
@@ -501,21 +799,21 @@ table.tsub{width:100%;border-collapse:collapse;margin:0}
   <div class="tots">
     <div class="tots-inner">
       <table class="tsub">
-        <tr><td class="tl">Subtotal</td><td class="tv">£${d.sub.toFixed(2)}</td></tr>
+        <tr><td class="tl">Subtotal</td><td class="tv">Â£${d.sub.toFixed(2)}</td></tr>
         ${vatRow}
-        <tr class="tgrand"><td class="tl">Total</td><td class="tv">£${d.grand.toFixed(2)}</td></tr>
+        <tr class="tgrand"><td class="tl">Total</td><td class="tv">Â£${d.grand.toFixed(2)}</td></tr>
       </table>
       <div class="balbox">
         <div class="ballbl">Balance Due</div>
-        <div class="balval">GBP £${d.grand.toFixed(2)}</div>
+        <div class="balval">GBP Â£${d.grand.toFixed(2)}</div>
       </div>
     </div>
   </div>
 
   <div class="footer">
-    Thank you for your business! &nbsp;·&nbsp;
-    <strong>${COMPANY.name}</strong> &nbsp;·&nbsp;
-    ${COMPANY.phone} &nbsp;·&nbsp; ${COMPANY.email}
+    Thank you for your business! &nbsp;Â·&nbsp;
+    <strong>${COMPANY.name}</strong> &nbsp;Â·&nbsp;
+    ${COMPANY.phone} &nbsp;Â·&nbsp; ${COMPANY.email}
   </div>
 </div>
 </body></html>`;
